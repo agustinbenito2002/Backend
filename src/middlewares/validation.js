@@ -73,7 +73,16 @@ export const validateEmpresa = (req, res, next) => {
     throw new ValidationError('El nombre no puede exceder 200 caracteres');
   }
 
-  if (descripcion && descripcion.length > 2000) {
+   const soloLetrasRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
+  if (!soloLetrasRegex.test(nombre)) {
+    throw new ValidationError('El nombre de la empresa solo puede contener letras y espacios');
+  }
+
+  if (!descripcion || descripcion.trim().length === 0) {
+    throw new ValidationError('La descripción es obligatoria');
+  }
+
+  if (descripcion.length > 2000) {
     throw new ValidationError('La descripción no puede exceder 2000 caracteres');
   }
 
